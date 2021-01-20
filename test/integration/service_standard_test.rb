@@ -45,15 +45,15 @@ class ServiceStandardTest < ActionDispatch::IntegrationTest
   test "each point has an anchor tag so that they can be linked to externally" do
     setup_and_visit_example("service_manual_service_standard", "service_manual_service_standard")
 
-    within('div[id="criterion-1"]') do
+    within("#criterion-1") do
       assert page.has_content?("1. Understand user needs"), "Anchor is incorrect"
     end
 
-    within('div[id="criterion-2"]') do
+    within("#criterion-2") do
       assert page.has_content?("2. Do ongoing user research"), "Anchor is incorrect"
     end
 
-    within('div[id="criterion-3"]') do
+    within("#criterion-3") do
       assert page.has_content?("3. Have a multidisciplinary team"), "Anchor is incorrect"
     end
   end
