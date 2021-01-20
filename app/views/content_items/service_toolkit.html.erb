@@ -8,8 +8,12 @@
     <div class="govuk-main-wrapper">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-          <h1 class="app-hero__title govuk-heading-xl govuk-!-margin-bottom-6 app-hero__heading--inverse">Design and build government services</h1>
-
+          <%= render "govuk_publishing_components/components/title", {
+            title: "Design and build government services",
+            inverse: true,
+            margin_top: 0,
+            margin_bottom: 6,
+          } %>
           <p class="app-hero__description govuk-body-l govuk-!-margin-bottom-3 app-hero__body--inverse">
             All you need to design, build and run services that meet government standards.
           </p>
@@ -24,7 +28,12 @@
     <div class="app-collection govuk-!-margin-top-7">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-          <h2 id="<%= collection["title"].parameterize %>" class="app-collection__title govuk-heading-l govuk-!-margin-bottom-1"><%= collection["title"] %></h2>
+          <%= render "govuk_publishing_components/components/heading", {
+            text: collection["title"],
+            font_size: "l",
+            margin_bottom: 1,
+            id: collection["title"].parameterize,
+          } %>
           <p class="app-collection__description govuk-body-l"><%= collection["description"] %></p>
         </div>
       </div>
@@ -32,7 +41,12 @@
         <div class="govuk-grid-row">
           <% row_of_links.each do | link | %>
             <div class="govuk-grid-column-one-half">
-              <h3 class="app-collection__link govuk-heading-m govuk-!-margin-bottom-2"><%= link_to link["title"], link["url"], class: "govuk-link" %></h3>
+              <%= render "govuk_publishing_components/components/heading", {
+                text: sanitize(link_to link["title"], link["url"], class: "govuk-link"),
+                heading_level: 3,
+                font_size: "m",
+                margin_bottom: 2,
+              } %>
               <p class="app-collection__link-description govuk-body"><%= link["description"] %></p>
             </div>
           <% end %>

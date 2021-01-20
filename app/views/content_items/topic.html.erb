@@ -30,23 +30,31 @@
           items: @content_item.accordion_content
         } %>
       <% else %>
-        <% @content_item.groups.each_with_index { |link_group| %>
+        <% @content_item.groups.each_with_index do |link_group| %>
           <% if link_group.name.present? %>
             <div class="subsection__header govuk-!-margin-bottom-3">
-              <h2 class="govuk-heading-m govuk-!-margin-bottom-1 govuk-!-margin-top-3 subsection__title" id="<%= link_group.name.parameterize %>"><%= link_group.name %></h2>
-            <% if link_group.description.present? %>
-              <p class="govuk-body govuk-!-margin-bottom-1 subsection__description"><%= link_group.description %></p>
-            <% end %>
+              <%= render "govuk_publishing_components/components/heading", {
+                text: link_group.name,
+                font_size: "m",
+                margin_bottom: 1,
+                id: link_group.name.parameterize,
+              } %>
+              <% if link_group.description.present? %>
+                <p class="govuk-body govuk-!-margin-bottom-1 subsection__description"><%= link_group.description %></p>
+              <% end %>
             </div>
           <% end %>
-          <ul class="govuk-list govuk-!-margin-bottom-9">
-            <% link_group.linked_items.each { |linked_item| %>
-              <li>
-                <%= link_to linked_item.label, linked_item.href, class: 'govuk-link' %>
-              </li>
-            <% } %>
-          </ul>
-        <% } %>
+          <%
+            link_items = []
+
+            link_group.linked_items.each do |linked_item|
+              link_items << sanitize(link_to linked_item.label, linked_item.href, class: 'govuk-link')
+            end
+          %>
+          <%= render "govuk_publishing_components/components/list", {
+            items: link_items
+          } %>
+        <% end %>
       <% end %>
     </div>
 
@@ -54,20 +62,26 @@
       <aside class="related govuk-!-margin-top-3">
       <% if @content_item.content_owners.any? %>
         <div class="related-item govuk-!-padding-top-4 govuk-!-margin-bottom-5">
-          <h2 class="related-item__title govuk-heading-s govuk-!-margin-bottom-2" id="related-communities">
-            <%= topic_related_communities_title(@content_item.content_owners) -%>
-          </h2>
+          <%= render "govuk_publishing_components/components/heading", {
+            text: topic_related_communities_title(@content_item.content_owners),
+            font_size: "s",
+            margin_bottom: 2,
+            id: "related-communities",
+          } %>
           <p class="related-item__description govuk-body">
             Find out what the cross-government community does and how to get involved.
           </p>
           <nav role="navigation" aria-labelledby="related-communities" class="related-communities">
-            <ul class="related-item__list govuk-list">
-              <% @content_item.content_owners.each do |content_owner| %>
-                <li class="related-item__list-item govuk-body-s">
-                  <%= link_to content_owner.title, content_owner.href, class: 'govuk-link' %>
-                </li>
-              <% end %>
-            </ul>
+            <%
+              related_items = []
+
+              @content_item.content_owners.each do |content_owner|
+                related_items << sanitize(link_to content_owner.title, content_owner.href, class: 'govuk-link')
+              end
+            %>
+            <%= render "govuk_publishing_components/components/list", {
+              items: related_items
+            } %>
           </nav>
         </div>
       <% end %>

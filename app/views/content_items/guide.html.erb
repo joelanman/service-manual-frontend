@@ -54,7 +54,14 @@
     <div class="govuk-grid-column-one-third app-sticky-element">
       <!--  Page contents -->
       <div class="page-contents js-page-contents">
-        <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-3">Page contents:</h2>
+        <div class="govuk-!-margin-top-3">
+          <%= render "govuk_publishing_components/components/heading", {
+            text: "Page contents:",
+            heading_level: 2,
+            font_size: "s",
+            margin_bottom: 1,
+          } %>
+        </div>
         <ul class="govuk-list app-page-contents__list">
           <% @content_item.header_links.each do |header_link| %>
             <li class="govuk-body-s">
